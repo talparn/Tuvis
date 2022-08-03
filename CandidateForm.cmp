@@ -1,0 +1,86 @@
+<!--
+    Component Name:     CandidateForm.cmp
+    Where Is It Used:   Home Page
+    Purpose:            Form used for HR to create a new Candidate - custom and freindly way
+    controller:         CandidateController.cls
+-->
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" controller="CandidateController">
+    <aura:attribute name="candidateDetailsFieldSet" type="List" description="New Candidate Form"/>
+    <aura:attribute name="candidateReocrds" type="Candidate__c[]"/>
+
+    <lightning:navigation aura:id="navService"/>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <lightning:button class="slds-button slds-button_outline-brand" label="Create Candidate" onclick="{!c.openCandidateForm}" iconName="utility:new"/>
+
+    <div class="slds-box">
+        <p class="slds-m-vertical_small formTitle">Candidates</p>
+        <lightning:card>
+            <aura:iteration var="can" items="{!v.candidateReocrds}">
+                <lightning:accordion allowMultipleSectionsOpen="true">
+                    <div class="slds-box" style="margin: 10px">
+                        <lightning:accordionSection label="{!can.Name}">
+                                <lightning:buttonMenu aura:id="menu" alternativeText="Show menu" iconSize="x-small">
+                                    <lightning:menuItem value="New" label="Go to Candidate" href="{!'/lightning/r/Candidate__c/' + can.Id + '/view'}"/>
+                                </lightning:buttonMenu>
+                                <lightning:recordForm recordId="{!can.Id}" objectApiName="Candidate__c" layoutType="Full" columns="2" mode="view">
+                            </lightning:recordForm>
+                        </lightning:accordionSection>
+                    </div>
+                </lightning:accordion>
+            </aura:iteration>
+        </lightning:card>
+    </div>
+    
+    <aura:if isTrue="{!v.openModal}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-modal_xx_small slds-fade-in-open" style="padding: 70px">
+            <div class="slds-modal__container" style="margin-inline: auto; padding: 35px; width: 80%; max-width: 70vh; background: #152F42;">
+                <lightning:spinner alternativeText="Loading" size="medium" class="slds-hide" aura:id="cmspinner" />
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                        onclick="{! c.closeModal}"
+                                        alternativeText="close"
+                                        variant="bare-inverse"
+                                        class="slds-modal__close"/>
+                    <img src="{!$Resource.TuvisLogo}" class="tuvisImage"/>
+                    <p class="slds-m-vertical_small formTitle">New Candidate</p>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning:card>
+                        <section>
+                            <aura:if isTrue="{!v.formScreen}">
+                                <lightning:recordEditForm
+                                    onload="{!c.handleLoad}"
+                                    onsubmit="{!c.handleSubmit}"
+                                    objectApiName="Candidate__c"
+                                    onsuccess="{!c.handleSuccess}"
+                                    onerror="{!c.handleError}"
+                                    aura:id="recordEditForm">
+                                    <lightning:messages aura:id="dealMessage"/>
+                                    <!--Candidate Details - Get fields from CandidateFieldsForm Field Set on Candidate__c object-->
+                                    <div class="slds-section">
+                                        <h3 class="slds-section__title slds-theme_shade">
+                                            <span class="slds-truncate slds-p-horizontal_small">Candidate Details:</span>
+                                        </h3>
+                                    </div>
+                                    <aura:iteration items="{!v.candidateDetailsFieldSet}" var="field" indexVar="i">
+                                        <div class="slds-grid slds-gutters">
+                                            <div class="slds-col slds-size_1-of-1">
+                                                <lightning:inputField rendered="" variant="label-stacked" required="{!field.req}" fieldName="{!field.name}" value="{!field.val}" />
+                                            </div>
+                                        </div>
+                                    </aura:iteration>
+            
+                                    <div class="slds-align_absolute-center">
+                                        <lightning:button variant="brand" label="Submit" type="submit"/>
+                                    </div>
+                                </lightning:recordEditForm>
+                            </aura:if>
+                        </section>
+                    </lightning:card>
+                </div>
+            </div>
+        </section>
+    </aura:if>
+</aura:component>
