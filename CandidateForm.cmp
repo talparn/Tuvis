@@ -9,7 +9,6 @@
     <aura:attribute name="candidateReocrds" type="Candidate__c[]"/>
     <aura:attribute name="openModal" type="Boolean" default="false"/>
     <aura:attribute name="formScreen" type="Boolean" default="false"/>
-    <aura:attribute name="formScreenTask" type="Boolean" default="false"/>
 
     <lightning:navigation aura:id="navService"/>
     <lightning:notificationsLibrary aura:id="notifLib"/>
