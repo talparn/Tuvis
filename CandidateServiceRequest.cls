@@ -1,6 +1,6 @@
 @RestResource(urlMapping='/CandidateInfo/*')
 global class CandidateServiceRequest{
-
+    //(MavenTool Extension) endpoint: https://mindful-fox-k2w4z2-dev-ed.my.salesforce.com/services/apexrest/CandidateInfo?email__c={emailInput}&mobile__c={mobileInput}
     @HttpGet
     global static List<Candidate__c> getCandidateRecord() {
         String stremail = '';
