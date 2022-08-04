@@ -85,6 +85,16 @@
 		component.set('v.openModal', false);
 		var spinner = component.find("cmspinner");
 		$A.util.addClass(spinner, "slds-hide");
+
+		var toastEvent = $A.get("e.force:showToast");
+			toastEvent.setParams({
+				mode: 'sticky',
+				"title": "Success!",
+				"message": "The record has been updated successfully.",
+				"type": "success"
+			});
+		toastEvent.fire();
+		
 		window.location.reload()
 	},
 
