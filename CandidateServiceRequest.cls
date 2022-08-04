@@ -3,7 +3,7 @@ public with sharing class CandidateServiceRequest {
         List<Object> candRecords = new List<Object>();
         Http http = new Http();
         HttpRequest request = new HttpRequest();
-        request.setEndpoint('https://mindful-fox-k2w4z2-dev-ed.lightning.force.com//services/data/v54.0/query?q=select+id,name,email__c,status__c,additional_notes__c+from+Candidate__c');
+        request.setEndpoint('https://mindful-fox-k2w4z2-dev-ed.lightning.force.com/services/data/v54.0/query?q=select+id,name,email__c,status__c,additional_notes__c+from+Candidate__c');
         request.setMethod('GET');
         request.setHeader('Authorization','Bearer '+ UserInfo.getSessionId());
         request.setHeader('Content-Type', 'application/json;charset=UTF-8');
