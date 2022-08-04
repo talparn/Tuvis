@@ -13,7 +13,6 @@
 			var action = component.get("c.getInitialParameters");
 			action.setCallback(this, function(response) {
 				var state = response.getState();
-				
 				if (state === "SUCCESS") {
 					var storeResponse = response.getReturnValue();
 					if (storeResponse != null){
@@ -28,6 +27,7 @@
 								fieldSetFields.push(JSON.parse(JSON.stringify(f)));
 							}
 							component.set('v.candidateDetailsFieldSet', fieldSetFields);
+							component.set('v.formScreen', true);
 						}
 					}
 				}
@@ -53,6 +53,7 @@
     },
 	
 	handleLoad : function(component, event, helper) {
+		component.set('v.formScreen', true);
 		var spinner = component.find("cmspinner");
         $A.util.addClass(spinner, "slds-hide");
 	},
